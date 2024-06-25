@@ -23,6 +23,7 @@ describe("projet trello", () => {
       // Ajouter la description pour chaque carte
       cardData.forEach((card) => {
         cy.contains(card.title).click();
+        cy.wait(1000);
         cy.get(
           '[aria-label="Zone de contenu principale, commencez à taper pour saisir du texte."]'
         ).type(card.description);
