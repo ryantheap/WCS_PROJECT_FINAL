@@ -23,14 +23,9 @@ describe("projet trello", () => {
       // Ajouter la description pour chaque carte
       cardData.forEach((card) => {
         cy.contains(card.title).click();
-        cy.wait(3000);
         cy.get(
           '[aria-label="Zone de contenu principale, commencez à taper pour saisir du texte."]'
-        )
-          // .click({ force: true })
-          .type(card.description);
-        // .wait(2000)
-        // .type(card.description);
+        ).type(card.description);
         cy.get('[data-testid="editor-save-button"]').click();
         cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
       });
