@@ -5,7 +5,7 @@ describe("Connexion", () => {
       cy.wait(5000);
   });
 
-  it.skip("Connexion sans email", () => {
+  it("Connexion sans email", () => {
       // LOGIN
       cy.origin("https://id.atlassian.com", () => {
         cy.get("#login-submit").click();
@@ -14,7 +14,7 @@ describe("Connexion", () => {
       });
   });
 
-  it.skip("Connexion sans mot de passe", () => {
+  it("Connexion sans mot de passe", () => {
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgroupe@gmail.com");
@@ -26,7 +26,7 @@ describe("Connexion", () => {
     });
   });
 
-  it.skip("Connexion email erroné et bon mot de passe", () => {
+  it("Connexion email erroné et bon mot de passe", () => {
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgrou@gmail.com");
@@ -38,7 +38,7 @@ describe("Connexion", () => {
     });
   });
 
-  it.skip("Connexion email ok et mot de passe erroné", () => {
+  it("Connexion email ok et mot de passe erroné", () => {
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgroupe@gmail.com");
@@ -52,7 +52,7 @@ describe("Connexion", () => {
 });
 
 describe("Choix de la forme de création du tableau", () => {
-  it.skip("Ouvrir la modal de création de tableau", () => {
+  it("Ouvrir la modal de création de tableau", () => {
       cy.visit("https://trello.com");
       cy.contains("Log in").click();
       cy.wait(5000);
@@ -73,7 +73,7 @@ describe("Choix de la forme de création du tableau", () => {
 });
 
 describe("Création d'un tableau", () => {
-  it.skip("Créer un tableau par la modal du header", () => {
+  it("Créer un tableau par la modal du header", () => {
     cy.visit("https://trello.com");
         cy.contains("Log in").click();
         cy.wait(5000);
@@ -116,7 +116,7 @@ describe("Modifier une image de couverture", () => {
     });
   });
 
-  it.skip("Changer la couverture par une image pré-sélectionnée", () => {
+  it("Changer la couverture par une image pré-sélectionnée", () => {
     cy.url().should("include", "/boards");
     cy.get('[href="/b/t4DeGuod/title-test"]').click();
     cy.wait(3000);
@@ -135,7 +135,7 @@ describe("Modifier une image de couverture", () => {
     cy.wait(2000);
   });
 
-  it.skip("Changer la couverture par une image recherchée", () => {
+  it("Changer la couverture par une image recherchée", () => {
     cy.url().should("include", "/boards");
     cy.get('[href="/b/t4DeGuod/title-test"]').click();
     cy.wait(3000);
