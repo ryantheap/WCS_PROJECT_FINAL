@@ -26,7 +26,7 @@ jobs:
         run: locale
 
       - name: Run e2e:workshop
-        run: npx cypress run --spec "cypress/e2e/projet_final.cy.js"
+        run: npx cypress run --spec "cypress/e2e/elie.cy.js"
         env:
           LANG: fr_FR.UTF-8
           LC_ALL: fr_FR.UTF-8
