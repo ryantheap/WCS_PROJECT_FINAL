@@ -1,5 +1,5 @@
 describe("US Elie", () => {
-  it.skip("Create a new card", () => {
+  it("Create a new card", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
 
@@ -14,11 +14,16 @@ describe("US Elie", () => {
     cy.get('[href="/b/TTa3PUmL/projet-final-groupe-3"]').click();
     cy.wait(3000);
     cy.contains("Ajouter une carte").click();
-    cy.get('[data-testid="list-card-composer-textarea"]').type("card title");
+
+    cy.fixture("elie").then((cardData) => {
+      cy.get('[data-testid="list-card-composer-textarea"]').type(
+        cardData.card_title
+      );
+    });
     cy.contains("Ajouter une carte").click();
   });
 
-  it.skip("Add a description", () => {
+  it("Add a description", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
 
@@ -33,16 +38,18 @@ describe("US Elie", () => {
     cy.get('[href="/b/TTa3PUmL/projet-final-groupe-3"]').click();
     cy.wait(3000);
 
-    cy.contains("card title").click();
-    cy.wait(1000);
-    cy.get(
-      '[aria-label="Zone de contenu principale, commencez à taper pour saisir du texte."]'
-    ).type("card.description");
-    cy.get('[data-testid="editor-save-button"]').click();
-    cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
+    cy.fixture("elie").then((cardData) => {
+      cy.contains(cardData.card_title).click();
+      cy.wait(1000);
+      cy.get(
+        '[aria-label="Zone de contenu principale, commencez à taper pour saisir du texte."]'
+      ).type(cardData.card_description);
+      cy.get('[data-testid="editor-save-button"]').click();
+      cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
+    });
   });
 
-  it.skip("Move a card", () => {
+  it("Move a card", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
 
@@ -57,20 +64,22 @@ describe("US Elie", () => {
     cy.get('[href="/b/TTa3PUmL/projet-final-groupe-3"]').click();
     cy.wait(3000);
 
-    cy.contains("card title").click();
-    cy.wait(3000);
-    cy.contains("Déplacer").click();
-    cy.get('[data-testid="move-card-popover-select-list-destination"]')
-      .click()
-      .type("In Progress")
-      .trigger("keydown", {
-        key: "Enter",
-      });
-    cy.get('[data-testid="move-card-popover-move-button"]').click();
-    cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
+    cy.fixture("elie").then((cardData) => {
+      cy.contains(cardData.card_title).click();
+      cy.wait(3000);
+      cy.contains("Déplacer").click();
+      cy.get('[data-testid="move-card-popover-select-list-destination"]')
+        .click()
+        .type("In Progress")
+        .trigger("keydown", {
+          key: "Enter",
+        });
+      cy.get('[data-testid="move-card-popover-move-button"]').click();
+      cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
+    });
   });
 
-  it.skip("Add a comment", () => {
+  it("Add a comment", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
 
@@ -97,7 +106,7 @@ describe("US Elie", () => {
     });
   });
 
-  it.skip("Update a comment", () => {
+  it("Update a comment", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
 
@@ -128,6 +137,7 @@ describe("US Elie", () => {
       cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
     });
   });
+
   it("Delete a comment", () => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
@@ -153,5 +163,52 @@ describe("US Elie", () => {
       cy.get('[value="Supprimer le commentaire"]').click();
       cy.get('[aria-label="Fermer la boîte de dialogue"]').click();
     });
+  });
+
+  it("Click filter button", () => {
+    cy.visit("https://trello.com");
+    cy.contains("Log in").click();
+
+    // LOGIN
+    cy.origin("https://id.atlassian.com", () => {
+      cy.get("#username").type("wcsgroupe@gmail.com");
+      cy.get("#login-submit").click();
+      cy.get("#password").type("Groupe3wcs.");
+      cy.get("#login-submit").click();
+    });
+
+    cy.get('[href="/b/TTa3PUmL/projet-final-groupe-3"]').click();
+    cy.wait(3000);
+
+    cy.get('[data-testid="filter-popover-button"]').click();
+    cy.contains(
+      "Recherchez des cartes, des membres, des étiquettes et plus encore."
+    ).should("be.visible");
+  });
+  it("Check date filter", () => {
+    cy.visit("https://trello.com");
+    cy.contains("Log in").click();
+
+    // LOGIN
+    cy.origin("https://id.atlassian.com", () => {
+      cy.get("#username").type("wcsgroupe@gmail.com");
+      cy.get("#login-submit").click();
+      cy.get("#password").type("Groupe3wcs.");
+      cy.get("#login-submit").click();
+    });
+
+    cy.get('[href="/b/TTa3PUmL/projet-final-groupe-3"]').click();
+    cy.wait(3000);
+
+    cy.get('[data-testid="filter-popover-button"]').click();
+    cy.contains(
+      "Recherchez des cartes, des membres, des étiquettes et plus encore."
+    ).should("be.visible");
+    cy.get('[title="Aucune date limite"]')
+      .closest("label")
+      .get('[type="checkbox"]')
+      .eq(3)
+      .check({ force: true });
+    cy.get('[aria-label="Fermer l\'infobulle"]').click();
   });
 });
