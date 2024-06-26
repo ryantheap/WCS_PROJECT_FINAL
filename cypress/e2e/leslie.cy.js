@@ -1,9 +1,11 @@
 describe("Connexion", () => {
-  it.skip("Connexion sans email", () => {
+  beforeEach(() => {
       cy.visit("https://trello.com");
       cy.contains("Log in").click();
       cy.wait(5000);
-  
+  });
+
+  it.skip("Connexion sans email", () => {
       // LOGIN
       cy.origin("https://id.atlassian.com", () => {
         cy.get("#login-submit").click();
@@ -13,10 +15,6 @@ describe("Connexion", () => {
   });
 
   it.skip("Connexion sans mot de passe", () => {
-    cy.visit("https://trello.com");
-    cy.contains("Log in").click();
-    cy.wait(5000);
-
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgroupe@gmail.com");
@@ -26,13 +24,9 @@ describe("Connexion", () => {
       cy.get("#password-uid3-error").should("be.visible").and("contain.text", "Saisissez votre mot de passe");
       cy.get('[data-invalid="true"]').should("be.visible");
     });
-});
+  });
 
   it.skip("Connexion email erroné et bon mot de passe", () => {
-    cy.visit("https://trello.com");
-    cy.contains("Log in").click();
-    cy.wait(5000);
-
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgrou@gmail.com");
@@ -45,10 +39,6 @@ describe("Connexion", () => {
   });
 
   it.skip("Connexion email ok et mot de passe erroné", () => {
-    cy.visit("https://trello.com");
-    cy.contains("Log in").click();
-    cy.wait(5000);
-
     // LOGIN
     cy.origin("https://id.atlassian.com", () => {
       cy.get("#username").type("wcsgroupe@gmail.com");
@@ -62,24 +52,24 @@ describe("Connexion", () => {
 });
 
 describe("Choix de la forme de création du tableau", () => {
-    it.skip("Ouvrir la modal de création de tableau", () => {
-        cy.visit("https://trello.com");
-        cy.contains("Log in").click();
+  it.skip("Ouvrir la modal de création de tableau", () => {
+      cy.visit("https://trello.com");
+      cy.contains("Log in").click();
+      cy.wait(5000);
+  
+      // LOGIN
+      cy.origin("https://id.atlassian.com", () => {
+        cy.get("#username").type("wcsgroupe@gmail.com");
+        cy.get("#login-submit").click();
         cy.wait(5000);
-    
-        // LOGIN
-        cy.origin("https://id.atlassian.com", () => {
-          cy.get("#username").type("wcsgroupe@gmail.com");
-          cy.get("#login-submit").click();
-          cy.wait(5000);
-          cy.get("#password").type("Groupe3wcs.");
-          cy.get("#login-submit").click();
-        });
+        cy.get("#password").type("Groupe3wcs.");
+        cy.get("#login-submit").click();
+      });
 
-        cy.url().should('include', '/boards');
-        cy.get('[data-testid="header-create-menu-button"]').click();
-        cy.get('[data-testid="header-create-menu-popover"]').should("be.visible");
-    });
+      cy.url().should('include', '/boards');
+      cy.get('[data-testid="header-create-menu-button"]').click();
+      cy.get('[data-testid="header-create-menu-popover"]').should("be.visible");
+  });
 });
 
 describe("Création d'un tableau", () => {
@@ -111,7 +101,7 @@ describe("Création d'un tableau", () => {
 });
 
 describe("Modifier une image de couverture", () => {
-  it.skip("Changer la couverture par une image pré-sélectionnée", () => {
+  beforeEach(() => {
     cy.visit("https://trello.com");
     cy.contains("Log in").click();
     cy.wait(5000);
@@ -124,7 +114,9 @@ describe("Modifier une image de couverture", () => {
       cy.get("#password").type("Groupe3wcs.");
       cy.get("#login-submit").click();
     });
+  });
 
+  it.skip("Changer la couverture par une image pré-sélectionnée", () => {
     cy.url().should("include", "/boards");
     cy.get('[href="/b/t4DeGuod/title-test"]').click();
     cy.wait(3000);
@@ -144,19 +136,6 @@ describe("Modifier une image de couverture", () => {
   });
 
   it.skip("Changer la couverture par une image recherchée", () => {
-    cy.visit("https://trello.com");
-    cy.contains("Log in").click();
-    cy.wait(5000);
-
-    // LOGIN
-    cy.origin("https://id.atlassian.com", () => {
-      cy.get("#username").type("wcsgroupe@gmail.com");
-      cy.get("#login-submit").click();
-      cy.wait(5000);
-      cy.get("#password").type("Groupe3wcs.");
-      cy.get("#login-submit").click();
-    });
-
     cy.url().should("include", "/boards");
     cy.get('[href="/b/t4DeGuod/title-test"]').click();
     cy.wait(3000);
