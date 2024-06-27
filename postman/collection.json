@@ -1,0 +1,601 @@
+{
+	"info": {
+		"_postman_id": "41955c58-8131-41f5-bb8c-87e71f2f1630",
+		"name": "Trello - API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34882950",
+		"_collection_link": "https://www.postman.com/wcs-project-postman/workspace/wcs-project-final/collection/34882950-41955c58-8131-41f5-bb8c-87e71f2f1630?action=share&source=collection_link&creator=34882950"
+	},
+	"item": [
+		{
+			"name": "Create new list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"\tpm.expect(pm.response.code).eql(200);\r",
+							"\tvar jsonResponse = pm.response.json();\r",
+							"\tpm.expect(jsonResponse).to.have.property('id');\r",
+							"\tpm.collectionVariables.set('list_id', jsonResponse.id);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/lists?name={{list_name}}&idBoard={{board_id}}&key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{list_name}}"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{board_id}}"
+						},
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update name of a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})\r",
+							"\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"pm.test('Response have an id', () => {\r",
+							"    pm.expect(jsonResponse).to.have.property('id');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check new name value', () => {\r",
+							"\tpm.expect(jsonResponse.name).eql(pm.collectionVariables.get('list_name_update'))\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "{{list_name_update}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/lists/{{list_id}}?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"lists",
+						"{{list_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})\r",
+							"\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"pm.test('Response have an id', () => {\r",
+							"    pm.expect(jsonResponse).to.have.property('id');\r",
+							"\t\tpm.collectionVariables.set('card_id', jsonResponse.id)\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name value', () => {\r",
+							"\tpm.expect(jsonResponse.name).eql(pm.collectionVariables.get('card_name'))\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "{{card_name}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/cards?idList={{list_id}}&key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{list_id}}"
+						},
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update card of a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})\r",
+							"\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"pm.test('Response have an id', () => {\r",
+							"    pm.expect(jsonResponse).to.have.property('id');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check new name value', () => {\r",
+							"\tpm.expect(jsonResponse.name).eql(pm.collectionVariables.get('card_name_update'))\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "{{card_name_update}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/cards/{{card_id}}?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cards",
+						"{{card_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all lists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/boards/{{board_id}}/lists?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boards",
+						"{{board_id}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test('Verify id and name values', () => {\r",
+							"    let jsonResponse = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonResponse).to.have.property('id', pm.collectionVariables.get(\"list_id\"));\r",
+							"    pm.expect(jsonResponse).to.have.property('name', pm.collectionVariables.get(\"list_name_update\"));\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/lists/{{list_id}}?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"lists",
+						"{{list_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get cards in a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/lists/{{list_id}}/cards?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"lists",
+						"{{list_id}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a card in a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.expect(pm.response.code).eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test('Verify card id, card name, board id, list id', () => {\r",
+							"    let jsonResponse = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonResponse).to.have.property('id', pm.collectionVariables.get('card_id'));\r",
+							"    pm.expect(jsonResponse).to.have.property('name', pm.collectionVariables.get('card_name_update'));\r",
+							"    pm.expect(jsonResponse).to.have.property('idBoard', pm.collectionVariables.get('board_id'));\r",
+							"    pm.expect(jsonResponse).to.have.property('idList', pm.collectionVariables.get('list_id'));\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/cards/{{card_id}}?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cards",
+						"{{card_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200',() => {\r",
+							"    pm.expect(pm.response.code).eq(200);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/cards/{{card_id}}?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cards",
+						"{{card_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Archive the list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200',() => {\r",
+							"    pm.expect(pm.response.code).eq(200);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "value",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/lists/{{list_id}}/closed?key={{apiKey}}&token={{token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"lists",
+						"{{list_id}}",
+						"closed"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.trello.com/1",
+			"type": "string"
+		},
+		{
+			"key": "board_id",
+			"value": "6666c2011c8f831f7a77b04c",
+			"type": "string"
+		},
+		{
+			"key": "list_name",
+			"value": "Nouvelle liste",
+			"type": "string"
+		},
+		{
+			"key": "list_id",
+			"value": "66796c79bcdc73eb9280d115"
+		},
+		{
+			"key": "list_name_update",
+			"value": "Nouveau nom de liste",
+			"type": "string"
+		},
+		{
+			"key": "card_name",
+			"value": "Nouvelle carte",
+			"type": "string"
+		},
+		{
+			"key": "card_id",
+			"value": "66796fd0cf67c0ed5de8dbfc"
+		},
+		{
+			"key": "card_name_update",
+			"value": "Nouveau nom de carte",
+			"type": "string"
+		},
+		{
+			"key": "boardId",
+			"value": "TTa3PUmL",
+			"type": "string"
+		}
+	]
+}

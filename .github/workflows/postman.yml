@@ -1,0 +1,50 @@
+name: Postman
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Create environment file
+        run: |
+          echo '{
+            "id": "environment",
+            "name": "My Environment",
+            "values": [
+              {
+                "key": "apiKey",
+                "value": "${{ secrets.API_KEY }}",
+                "type": "text",
+                "enabled": true
+              },
+              {
+                "key": "token",
+                "value": "${{ secrets.API_TOKEN }}",
+                "type": "text",
+                "enabled": true
+              }
+            ]
+          }' > postman/env.json
+
+      - name: Install newman
+        run: npm install -g newman
+
+      - name: Install newman-reporter-htmlextra
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run newman
+        run: newman run postman/collection.json -e postman/env.json -r cli,htmlextra
+
+      - name: publish report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: ./newman/*.html
+          name: html-report
