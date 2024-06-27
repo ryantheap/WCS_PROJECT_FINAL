@@ -12,27 +12,26 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-        - name: Create environment file
-          run: |
-            echo '{
-              "id": "environment",
-              "name": "My Environment",
-              "values": [
-                {
-                  "key": "apiKey",
-                  "value": "${{ secrets.API_KEY }}",
-                  "type": "text",
-                  "enabled": true
-                },
-                {
-                  "key": "token",
-                  "value": "${{ secrets.API_TOKEN }}",
-                  "type": "text",
-                  "enabled": true
-                }
-              ]
-            }' > postman/env.json
-
+      - name: Create environment file
+        run: |
+          echo '{
+            "id": "environment",
+            "name": "My Environment",
+            "values": [
+              {
+                "key": "apiKey",
+                "value": "${{ secrets.API_KEY }}",
+                "type": "text",
+                "enabled": true
+              },
+              {
+                "key": "token",
+                "value": "${{ secrets.API_TOKEN }}",
+                "type": "text",
+                "enabled": true
+              }
+            ]
+          }' > postman/env.json
 
       - name: Install newman
         run: npm install -g newman
