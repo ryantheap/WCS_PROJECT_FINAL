@@ -1,4 +1,4 @@
-name: Cypress
+name: e2e_leslie
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ele_leslie:
+  e2e_leslie:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository

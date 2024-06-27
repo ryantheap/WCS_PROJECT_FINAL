@@ -1,4 +1,4 @@
-name: Cypress
+name: e2e_wafa
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ele_wafa:
+  e2e_wafa:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository

@@ -1,4 +1,4 @@
-name: Cypress
+name: e2e_hanae
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ele_hanae:
+  e2e_hanae:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
