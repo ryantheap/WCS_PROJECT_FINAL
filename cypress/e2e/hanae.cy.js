@@ -1,7 +1,7 @@
 describe("projet trello", () => {
   it("verifier le header", () => {
     cy.visit("https://trello.com");
-    cy.wait(3000);
+    cy.wait(10000);
     cy.get("#onetrust-accept-btn-handler").click({ force: false });
     cy.wait(3000);
     cy.get('[data-uuid="MJFtCCgVhXrVl7v9HA7EH_login"]').and(
