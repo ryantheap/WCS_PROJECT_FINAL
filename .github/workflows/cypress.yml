@@ -12,6 +12,14 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
+      - name: Create environment file
+        run: |
+          echo '
+            API_KEY=${{ secrets.API_KEY }}
+            TOKEN=${{ secrets.API_TOKEN }}
+            ID_BOARD=KGnZspVf
+          ' > .env
+
       - name: Install dependencies
         run: npm install
 
@@ -25,7 +33,7 @@ jobs:
       - name: Verify Locale
         run: locale
 
-      - name: Run e2e:workshop
+      - name: Run e2e:elie
         run: npx cypress run --spec "cypress/e2e/elie.cy.js"
         env:
           LANG: fr_FR.UTF-8
@@ -38,8 +46,47 @@ jobs:
           path: ./cypress/reports/html
           name: html-report
 
-      - name: Run e2e:workshop
+      - name: Run e2e:leslie
         run: npx cypress run --spec "cypress/e2e/leslie.cy.js"
+        env:
+          LANG: fr_FR.UTF-8
+          LC_ALL: fr_FR.UTF-8
+
+      - name: publish report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: ./cypress/reports/html
+          name: html-report
+
+      - name: Run e2e:wafa
+        run: npx cypress run --spec "cypress/e2e/wafa.cy.js"
+        env:
+          LANG: fr_FR.UTF-8
+          LC_ALL: fr_FR.UTF-8
+
+      - name: publish report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: ./cypress/reports/html
+          name: html-report
+
+      - name: Run e2e:hanae
+        run: npx cypress run --spec "cypress/e2e/hanae.cy.js"
+        env:
+          LANG: fr_FR.UTF-8
+          LC_ALL: fr_FR.UTF-8
+
+      - name: publish report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: ./cypress/reports/html
+          name: html-report
+
+      - name: Run e2e:conditions_initiales
+        run: npx cypress run --spec "cypress/e2e/conditions_initiales.cy.js"
         env:
           LANG: fr_FR.UTF-8
           LC_ALL: fr_FR.UTF-8
